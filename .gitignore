@@ -1,3 +1,4 @@
+.planning/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 /help.md
