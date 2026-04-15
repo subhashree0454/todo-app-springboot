@@ -139,6 +139,18 @@ mvn spring-boot:run
 
 ---
 
+## 🐳 Containerization (Docker)
+
+Run the entire stack (App + Database) with a single command:
+
+```bash
+docker-compose up --build
+```
+
+The application will be available at `http://localhost:8080`.
+
+---
+
 ## 📖 API Documentation (Swagger)
 
 Once the application is running, you can access the interactive API documentation and test all endpoints:
