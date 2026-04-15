@@ -1,56 +1,97 @@
-# Todo List API with Thymeleaf & JWT
+# 🚀 Premium Todo List Application | Spring Boot + JWT + Thymeleaf
 
-A production-ready full-stack Spring Boot application for managing Todos, featuring a hybrid SSR (Thymeleaf) and REST API (JWT) architecture.
+[![Java Version](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.4-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Security](https://img.shields.io/badge/Security-JWT-blue.svg)](https://jwt.io/)
+[![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791.svg)](https://www.postgresql.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Features
-- **User Authentication**: Secure registration and login using JWT.
-- **Todo Management**: Complete CRUD operations (Create, Read, Update, Delete).
-- **Advanced Filtering**: Search by title, pagination (10 per page), and sorting by creation date.
-- **Premium UI**: Modern Bootstrap design with custom CSS variables and responsive layout.
-- **Clean Architecture**: Layered structure with clear separation of concerns (Controller, Service, Repository, Entity, DTO).
-- **Security Best Practices**: BCrypt password hashing, Stateless JWT, and Global Exception Handling.
+A production-ready, full-stack **Spring Boot** Todo List application designed with a robust **Clean Architecture**. This project demonstrates a hybrid fusion of **Thymeleaf** (Server-Side Rendering) and modern **JWT-based Stateless Authentication**, providing a seamless, secure, and high-performance user experience.
 
-## Tech Stack
-- **Backend**: Spring Boot 3, Spring Security, Spring Data JPA
-- **Frontend**: Thymeleaf, Bootstrap 5, JavaScript (Fetch API)
-- **Database**: PostgreSQL
-- **Build Tool**: Maven
+---
 
-## Prerequisites
-- JDK 17+
-- PostgreSQL database
-- Maven
+## 🌟 Key Features
 
-## Database Configuration
-Update the `src/main/resources/application.properties` with your PostgreSQL credentials:
+- **🔐 Advanced Security**: Stateless JWT-based authentication combined with CSRF protection for Thymeleaf forms.
+- **🏗️ Clean Architecture**: Decoupled layers (Controller, Service, Repository, Entity, DTO) ensuring maintainability and scalability.
+- **♻️ Full CRUD Operations**: Secure Todo management with owner-based access control.
+- **🔍 Smart Filtering & Search**: Real-time keyword search for todos with backend-powered pagination and sorting.
+- **🎨 Premium UI/UX**: Modern glassmorphism-inspired design built with Bootstrap 5 and custom CSS variables.
+- **📊 Optimized Database**: PostgreSQL integration with automatic auditing and strategic indexing.
+- **🛡️ Global Exception Handling**: centralized error reporting for both REST APIs and UI routes.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Backend core**: Java 17, Spring Boot 3.2+
+- **Security**: Spring Security, JJWT (JSON Web Token)
+- **Data Layer**: Spring Data JPA, Hibernate, PostgreSQL
+- **Frontend**: Thymeleaf, JavaScript (Fetch API), Bootstrap 5
+- **Tooling**: Maven, Lombok, Jakarta Validation
+
+---
+
+## 🚀 Quick Start
+
+### 1. Prerequisites
+- **JDK 17** or higher
+- **PostgreSQL** instance running
+- **Maven** installed
+
+### 2. Database Configuration
+Create a database named `todo_db` and update `src/main/resources/application.properties`:
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/todo_db
-spring.datasource.username=your_username
-spring.datasource.password=your_password
+spring.datasource.username=YOUR_USER
+spring.datasource.password=YOUR_PASSWORD
 ```
 
-## Running the Application
-1. Create the database `todo_db` in PostgreSQL.
-2. Run the application using Maven:
-   ```bash
-   mvn spring-boot:run
-   ```
-3. Access the application at `http://localhost:8080/login`.
+### 3. Build and Run
+```bash
+mvn clean install
+mvn spring-boot:run
+```
+Navigate to `http://localhost:8080/login` to start managing your daily tasks!
 
-## API Endpoints
-- `POST /api/auth/register` - Create a new account.
-- `POST /api/auth/login` - Authenticate and get JWT.
-- `GET /api/todos` - List user todos (supports `page`, `keyword`).
-- `GET /api/todos/{id}` - Fetch single todo details.
-- `POST /api/todos` - Create a new todo.
-- `PUT /api/todos/{id}` - Update existing todo.
-- `DELETE /api/todos/{id}` - Remove a todo.
+---
 
-## Project Structure
-- `com.todo.controller`: MVC and REST controllers.
-- `com.todo.service`: Business logic for Users and Todos.
-- `com.todo.repository`: Data access with JpaRepository.
-- `com.todo.entity`: Data models with Hibernate mappings.
-- `com.todo.security`: JWT and Security configurations.
-- `com.todo.dto`: Data transfer objects for API consistency.
-- `com.todo.exception`: Global error handling.
+## 📡 API Reference
+
+### Authentication
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Create a new user account |
+| `POST` | `/api/auth/login` | Authenticate and retrieve JWT bearer token |
+
+### Todo Management
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/todos` | List todos with pagination & keyword search |
+| `GET` | `/api/todos/{id}` | Fetch detailed Todo object |
+| `POST` | `/api/todos` | Create a new Todo item |
+| `PUT` | `/api/todos/{id}` | Update existing Todo content |
+| `DELETE` | `/api/todos/{id}` | Permanently delete a Todo item |
+
+---
+
+## 📁 Project Structure
+
+```text
+src/main/java/com/todo/
+├── controller/   # REST APIs and MVC View Controllers
+├── service/      # Business logic and user validation
+├── repository/   # Spring Data JPA persistence interfaces
+├── entity/       # JPA entities (User, Todo)
+├── security/     # JWT filters and Security configurations
+├── dto/          # Data Transfer Objects for API consistency
+└── exception/    # Global Exception Handler and custom errors
+```
+
+---
+
+## 📜 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+*Developed with ❤️ for high-performance enterprise applications.*
