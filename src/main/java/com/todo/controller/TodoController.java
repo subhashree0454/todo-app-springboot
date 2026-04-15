@@ -6,7 +6,6 @@ import com.todo.dto.TodoResponse;
 import com.todo.entity.User;
 import com.todo.service.TodoService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -17,9 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/todos")
-@RequiredArgsConstructor
 public class TodoController {
     private final TodoService todoService;
+
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
+    }
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<TodoResponse>>> getTodos(

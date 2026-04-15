@@ -5,16 +5,18 @@ import com.todo.dto.TodoResponse;
 import com.todo.entity.Todo;
 import com.todo.entity.User;
 import com.todo.repository.TodoRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 public class TodoService {
     private final TodoRepository todoRepository;
+
+    public TodoService(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
+    }
 
     public Page<TodoResponse> getTodos(User user, String keyword, Pageable pageable) {
         Page<Todo> todoPage;
@@ -28,8 +30,8 @@ public class TodoService {
 
     public TodoResponse createTodo(User user, TodoRequest request) {
         Todo todo = Todo.builder()
-                .title(request.getTitle())
-                .description(request.getDescription())
+                .title(request.title())
+                .description(request.description())
                 .user(user)
                 .build();
         return mapToResponse(todoRepository.save(todo));
@@ -44,8 +46,8 @@ public class TodoService {
             throw new RuntimeException("Unauthorized access to this Todo");
         }
 
-        todo.setTitle(request.getTitle());
-        todo.setDescription(request.getDescription());
+        todo.setTitle(request.title());
+        todo.setDescription(request.description());
         return mapToResponse(todoRepository.save(todo));
     }
 

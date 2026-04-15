@@ -11,6 +11,29 @@ A production-ready, full-stack **Spring Boot** application designed with **Clean
 
 ---
 
+## 📸 Screenshots
+
+<details>
+<summary><b>View Application Gallery</b></summary>
+
+### 🔐 Multi-Auth System
+![Login Page](screenshot/login.png)
+*Modern Login Interface*
+
+![Register Page](screenshot/register.png)
+*Seamless User Onboarding*
+
+### 📋 Task Management
+![Dashboard](screenshot/dashboard.png)
+*Glassmorphism Dashboard with real-time search*
+
+![Create Todo](screenshot/todocreate.png)
+*Simple & Intuitive Task Creation*
+
+</details>
+
+---
+
 ## 🏗️ System Architecture
 
 ### High-Level Architecture
