@@ -4,94 +4,139 @@
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.4-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Security](https://img.shields.io/badge/Security-JWT-blue.svg)](https://jwt.io/)
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791.svg)](https://www.postgresql.org/)
+[![Swagger](https://img.shields.io/badge/API_Docs-Swagger-85EA2D.svg)](http://localhost:8080/swagger-ui/index.html)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A production-ready, full-stack **Spring Boot** Todo List application designed with a robust **Clean Architecture**. This project demonstrates a hybrid fusion of **Thymeleaf** (Server-Side Rendering) and modern **JWT-based Stateless Authentication**, providing a seamless, secure, and high-performance user experience.
+A production-ready, full-stack **Spring Boot** application designed with **Clean Architecture**. This project showcases a secure, high-performance hybrid system using **Thymeleaf** for the frontend and a stateless **JWT-based REST API** for data management.
+
+---
+
+## 🏗️ System Architecture
+
+### High-Level Architecture
+```mermaid
+graph TD
+    Client[Browser / API Client] -->|HTTP Requests| Controller[Spring MVC / REST Controllers]
+    Controller -->|Authentication / JWT Filter| Security[Spring Security]
+    Security -->|Authorized Request| Service[Business Logic / Services]
+    Service -->|Database Operations| Repository[Spring Data JPA]
+    Repository -->|SQL| Database[(PostgreSQL)]
+    
+    subgraph "Backend Framework (Spring Boot)"
+    Controller
+    Security
+    Service
+    Repository
+    end
+```
+
+### Database Schema (ER Diagram)
+```mermaid
+erDiagram
+    USER ||--o{ TODO : owns
+    USER {
+        long id PK
+        string name
+        string email UK
+        string password "Hashed"
+        timestamp created_at
+    }
+    TODO {
+        long id PK
+        string title
+        string description
+        timestamp created_at
+        timestamp updated_at
+        long user_id FK
+    }
+```
+
+---
+
+## 🔐 Authentication Workflow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant AuthAPI as Auth Controller
+    participant JWT as JwtService
+    participant DB as User Repository
+
+    User->>Frontend: Enter Credentials
+    Frontend->>AuthAPI: POST /api/auth/login
+    AuthAPI->>DB: Verify User
+    DB-->>AuthAPI: User Found
+    AuthAPI->>JWT: Generate Token
+    JWT-->>AuthAPI: JWT Signed
+    AuthAPI-->>Frontend: { success: true, token: "..." }
+    Frontend->>Frontend: Store Token in LocalStorage
+    Note over Frontend, AuthAPI: Subsequent Requests include Bearer Token in Header
+```
 
 ---
 
 ## 🌟 Key Features
 
-- **🔐 Advanced Security**: Stateless JWT-based authentication combined with CSRF protection for Thymeleaf forms.
-- **🏗️ Clean Architecture**: Decoupled layers (Controller, Service, Repository, Entity, DTO) ensuring maintainability and scalability.
-- **♻️ Full CRUD Operations**: Secure Todo management with owner-based access control.
-- **🔍 Smart Filtering & Search**: Real-time keyword search for todos with backend-powered pagination and sorting.
-- **🎨 Premium UI/UX**: Modern glassmorphism-inspired design built with Bootstrap 5 and custom CSS variables.
-- **📊 Optimized Database**: PostgreSQL integration with automatic auditing and strategic indexing.
-- **🛡️ Global Exception Handling**: centralized error reporting for both REST APIs and UI routes.
+- **🔐 Enterprise Security**: Stateless JWT authentication with standard Bearer token support.
+- **📚 Interactive API Docs**: Integrated **Swagger/OpenAPI** for real-time API testing.
+- **🏗️ Decoupled Design**: Pure separation of concerns using the Service-Repository pattern.
+- **🔍 Smart Searching**: Advanced backend keyword filtering and pagination powered by Spring Data.
+- **🎨 Glassmorphism UI**: modern design system with Bootstrap 5 and customized CSS.
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Backend core**: Java 17, Spring Boot 3.2+
-- **Security**: Spring Security, JJWT (JSON Web Token)
-- **Data Layer**: Spring Data JPA, Hibernate, PostgreSQL
-- **Frontend**: Thymeleaf, JavaScript (Fetch API), Bootstrap 5
-- **Tooling**: Maven, Lombok, Jakarta Validation
+| Category | Technology |
+| :--- | :--- |
+| **Backend** | Java 17, Spring Boot 3.2, Spring Security |
+| **Authentication** | JSON Web Token (JWT), BCrypt |
+| **Database** | PostgreSQL, Hibernate, Spring Data JPA |
+| **Frontend** | Thymeleaf, JavaScript, Bootstrap 5 |
+| **Documentation** | SpringDoc OpenAPI (Swagger UI) |
+| **Build Tool** | Maven 3.x |
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
 ### 1. Prerequisites
-- **JDK 17** or higher
-- **PostgreSQL** instance running
-- **Maven** installed
+- **PostgreSQL** (Database name: `todo_db`)
+- **Maven** and **JDK 17+**
 
-### 2. Database Configuration
-Create a database named `todo_db` and update `src/main/resources/application.properties`:
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/todo_db
-spring.datasource.username=YOUR_USER
-spring.datasource.password=YOUR_PASSWORD
-```
+### 2. Configuration
+Update `src/main/resources/application.properties` with your PostgreSQL username and password.
 
-### 3. Build and Run
+### 3. Execution
 ```bash
 mvn clean install
 mvn spring-boot:run
 ```
-Navigate to `http://localhost:8080/login` to start managing your daily tasks!
 
 ---
 
-## 📡 API Reference
+## 📖 API Documentation (Swagger)
 
-### Authentication
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/api/auth/register` | Create a new user account |
-| `POST` | `/api/auth/login` | Authenticate and retrieve JWT bearer token |
+Once the application is running, you can access the interactive API documentation and test all endpoints:
 
-### Todo Management
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/todos` | List todos with pagination & keyword search |
-| `GET` | `/api/todos/{id}` | Fetch detailed Todo object |
-| `POST` | `/api/todos` | Create a new Todo item |
-| `PUT` | `/api/todos/{id}` | Update existing Todo content |
-| `DELETE` | `/api/todos/{id}` | Permanently delete a Todo item |
+📍 **Swagger UI**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)  
+📍 **OpenAPI JSON**: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+
+> **Pro Tip**: Use the "Authorize" button in Swagger and paste your JWT token (after logging in via `/api/auth/login`) to test protected Todo endpoints!
 
 ---
 
-## 📁 Project Structure
+## 📁 Project Overview
 
-```text
-src/main/java/com/todo/
-├── controller/   # REST APIs and MVC View Controllers
-├── service/      # Business logic and user validation
-├── repository/   # Spring Data JPA persistence interfaces
-├── entity/       # JPA entities (User, Todo)
-├── security/     # JWT filters and Security configurations
-├── dto/          # Data Transfer Objects for API consistency
-└── exception/    # Global Exception Handler and custom errors
-```
+- `controller/`: Entry points for REST and UI navigation.
+- `service/`: Core business logic and security checks.
+- `repository/`: Data persistence interfaces.
+- `entity/`: Database models.
+- `security/`: JWT handling and path security config.
+- `config/`: Application and OpenAPI beans.
 
 ---
 
 ## 📜 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-*Developed with ❤️ for high-performance enterprise applications.*
+Licensed under the [MIT License](LICENSE).

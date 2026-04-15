@@ -56,7 +56,18 @@ public class SecurityConfig {
                 .ignoringRequestMatchers("/api/**") // Allow API calls with JWT header
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/login", "/register", "/css/**", "/js/**", "/error", "/favicon.ico").permitAll()
+                .requestMatchers(
+                    "/api/auth/**", 
+                    "/login", 
+                    "/register", 
+                    "/css/**", 
+                    "/js/**", 
+                    "/error", 
+                    "/favicon.ico",
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
